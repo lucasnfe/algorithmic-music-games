@@ -51,6 +51,7 @@ function setup() {
     part1.start();
     part1.mute = true;
     part3.start();
+    part3.mute = true;
 
     world = new World(grid, s);
 

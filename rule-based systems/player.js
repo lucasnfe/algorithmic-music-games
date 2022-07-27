@@ -10,7 +10,7 @@ class Player extends RigibBody {
 
     // Draw player
     noStroke();
-    fill(200);
+    fill(100, 200, 100);
     circle(this.pos.x, this.pos.y, this.size);
 
     this.resetAcc();

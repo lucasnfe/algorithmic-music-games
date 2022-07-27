@@ -9,7 +9,7 @@ const ENEMY_STATES = {
 }
 
 const ENEMY_STATES_TIME_LIMITS = {
-  'idle': 3,
+  'idle': 1.5
 }
 
 const ENEMY_STATES_SPEEDS = {
@@ -43,6 +43,8 @@ class Enemy extends RigibBody {
     this.playerLastSeen = null;
 
     this.path = [];
+    this.lastPathLength = 0;
+    this.stepCount = 0;
     this.state = ENEMY_STATES['idle'];
     this.timer = .0;
   }
@@ -140,15 +142,17 @@ class Enemy extends RigibBody {
 
         Tone.Transport.bpm.value = 300;
         part1.mute = false;
+        part3.mute = false;
       }
     }
 
     if(this.state == ENEMY_STATES['idle']) {
       part1.mute = true;
+      part3.mute = true;
 
       this.vel.set(0., 0.);
 
-      this.timer += 0.1;
+      this.timer += deltaTime/360;
       if(this.timer > ENEMY_STATES_TIME_LIMITS['idle']) {
         // Find random patrol point
         this.playerLastSeen = world.getRandomCoord();
@@ -159,19 +163,33 @@ class Enemy extends RigibBody {
     }
     else if(this.state == ENEMY_STATES['patrol']) {
       part1.mute = true;
+      part3.mute = true;
 
       // Find path to random patrol point
       this.path = world.a_star(world.pos2Coord(this.pos), this.playerLastSeen);
-      if (this.path && this.path.length > 1) {
+
+      if(this.path) {
+        if(this.path.length != this.lastPathLength) {
+          if(this.stepCount == 2) {
+            this.stepCount = 0;
+            sampler.triggerAttackRelease("A5", "8n", Tone.now(), random(0.3, 0.9));
+          }
+
+          this.stepCount += 1;
+          this.lastPathLength = this.path.length;
+        }
+      }
+
+      if(this.path && this.path.length > 1) {
         this.followPath(ENEMY_STATES_SPEEDS['patrol'], 25);
       }
       else {
-        this.path = [];
-
         let seekPos = world.cell2Pos(this.playerLastSeen);
         this.seek(seekPos, ENEMY_STATES_SPEEDS['patrol'], ARRIVE_RADIUS);
         if (p5.Vector.dist(this.pos, seekPos) <= 1.0) {
+          this.path = [];
           this.state = ENEMY_STATES['idle'];
+          this.stepCount = 0;
         }
       }
     }
@@ -180,7 +198,6 @@ class Enemy extends RigibBody {
       let musicPath = world.a_star(world.pos2Coord(this.pos), world.pos2Coord(player.pos));
 
       if(musicPath) {
-        console.log(musicPath.length);
         let tempo = map(musicPath.length, 0, world.grid.length, 300, 40);
         Tone.Transport.bpm.value = tempo;
       }

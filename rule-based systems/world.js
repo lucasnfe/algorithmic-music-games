@@ -61,8 +61,8 @@ class World {
                   noStroke();
                   fill(50);
               } else {
-                  stroke(30);
-                  fill(20);
+                  stroke(210);
+                  fill(230);
               }
 
               rect(y * this.cellSize, x * this.cellSize, this.cellSize, this.cellSize);
