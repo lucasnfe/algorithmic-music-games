@@ -6,8 +6,6 @@ class Player extends RigibBody {
   }
 
   draw() {
-    this.update();
-
     // Draw player
     noStroke();
     fill(100, 200, 100);

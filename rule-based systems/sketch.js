@@ -16,12 +16,8 @@ function setup() {
             [1, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]];
 
-    createCanvas(grid[0].length * s, grid.length * s);
-
-    Tone.start();
-    Tone.Transport.start();
-    Tone.Transport.bpm.value = 40;
-    Tone.Transport.timeSignature = [4, 4];
+    let cnv = createCanvas(grid[0].length * s, grid.length * s);
+    cnv.mousePressed(play);
 
     sampler = new Tone.Sampler({
         "A1" : "Tom1.[mp3|ogg|wav]",
@@ -34,24 +30,18 @@ function setup() {
         "baseUrl" : 'samples/toms/'
     }).toDestination();
 
-    const notes1 = [{ pitch: "A1", duration: "8n", isRest: false, velocity: 0.9  }];
+    notes1 = [{ pitch: "A1", duration: "8n", isRest: false, velocity: 0.9  }];
+    notes3 = [{ pitch: "A3", duration: "8n", isRest: true, velocity: 0.9  },
+              { pitch: "A5", duration: "8n", isRest: false, velocity: 0.7 },
+              { pitch: "A3", duration: "8n", isRest: true, velocity: 0.6 },
+              { pitch: "A5", duration: "8n", isRest: false, velocity: 0.9 },
+              { pitch: "A3", duration: "8n", isRest: true, velocity: 0.7 },
+              { pitch: "A5", duration: "8n", isRest: false, velocity: 0.5 },
+              { pitch: "A3", duration: "8n", isRest: true, velocity: 0.5 },
+              { pitch: "A5", duration: "8n", isRest: false, velocity: 0.4 } ];
 
-    const notes3 = [{ pitch: "A3", duration: "8n", isRest: true, velocity: 0.9  },
-                    { pitch: "A5", duration: "8n", isRest: false, velocity: 0.7 },
-                    { pitch: "A3", duration: "8n", isRest: true, velocity: 0.6 },
-                    { pitch: "A5", duration: "8n", isRest: false, velocity: 0.9 },
-                    { pitch: "A3", duration: "8n", isRest: true, velocity: 0.7 },
-                    { pitch: "A5", duration: "8n", isRest: false, velocity: 0.5 },
-                    { pitch: "A3", duration: "8n", isRest: true, velocity: 0.5 },
-                    { pitch: "A5", duration: "8n", isRest: false, velocity: 0.4 } ];
 
-    part1 = createPart(notes1, true);
-    part3 = createPart(notes3, true);
-
-    part1.start();
-    part1.mute = true;
-    part3.start();
-    part3.mute = true;
+    hasPressedPlay = false;
 
     world = new World(grid, s);
 
@@ -66,23 +56,13 @@ function draw() {
     background(30);
 
     world.draw();
+    if(hasPressedPlay) {
+        player.update();
+        enemy.update();
+    }
+
     player.draw();
     enemy.draw();
-}
-
-function mousePressed() {
-    let mouseCoord = world.pos2Coord(createVector(mouseX, mouseY));
-
-    if (mouseButton === LEFT) {
-        world.set(mouseCoord.x, mouseCoord.y);
-    }
-}
-
-function mouseDragged() {
-    if(mouseIsPressed && mouseButton === LEFT) {
-        let mouseCoord = world.pos2Coord(createVector(mouseX, mouseY));
-        world.set(mouseCoord.x, mouseCoord.y);
-    }
 }
 
 function createPart(notes, loop = false) {
@@ -109,4 +89,21 @@ function createPart(notes, loop = false) {
   part.loopEnd = noteStartTime;
 
   return part;
+}
+
+function play() {
+    Tone.start();
+    Tone.Transport.start();
+    Tone.Transport.bpm.value = 40;
+    Tone.Transport.timeSignature = [4, 4];
+
+    part1 = createPart(notes1, true);
+    part3 = createPart(notes3, true);
+
+    part1.start();
+    part1.mute = true;
+    part3.start();
+    part3.mute = true;
+
+    hasPressedPlay = true;
 }

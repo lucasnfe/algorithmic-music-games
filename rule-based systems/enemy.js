@@ -35,7 +35,6 @@ function getNormalPoint(p, a, b) {
   return normalPoint;
 }
 
-
 class Enemy extends RigibBody {
   constructor(x, y, mass, size) {
     super(x, y, mass, size);
@@ -50,8 +49,6 @@ class Enemy extends RigibBody {
   }
 
   draw() {
-    this.update();
-
     noStroke();
     fill(85, 56, 120);
     circle(this.pos.x, this.pos.y, this.size);
