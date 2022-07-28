@@ -4,6 +4,8 @@ This repository contains a collection of algorithmic music methods with applicat
 
 ## Examples
 
+- Randomness
+  - [Music for Airports](https://lucasnfe.github.io/algorithmic-music-games/randomness/index.html)
 - Generative Grammars
   - [Additive rhythms](https://lucasnfe.github.io/algorithmic-music-games/generative%20grammars/index.html)
 - Rule-based Systems
