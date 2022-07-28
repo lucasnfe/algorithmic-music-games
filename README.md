@@ -5,12 +5,16 @@ This repository contains a collection of algorithmic music methods with applicat
 ## Examples
 
 - Randomness
-  - [Music for Airports](https://lucasnfe.github.io/algorithmic-music-games/randomness/index.html)
+  - [Ambient Music](https://lucasnfe.github.io/algorithmic-music-games/randomness/index.html)
 - Generative Grammars
-  - [Additive rhythms](https://lucasnfe.github.io/algorithmic-music-games/generative%20grammars/index.html)
+  - [Additive Rhythms](https://lucasnfe.github.io/algorithmic-music-games/generative%20grammars/index.html)
 - Rule-based Systems
   - [Adaptive Music](https://lucasnfe.github.io/algorithmic-music-games/rule-based%20systems/index.html)
 - Cellular Automata
+- Search
 - Genetic Algorithms
 - Markov Models
 - Deep Learning
+  - Language Models
+  - Variational Autoencoders
+  - GANs
