@@ -68,11 +68,11 @@ class RigibBody {
 
           // Resolve horizontal collision
           if (velDir.x > 0) {
-            this.pos.x = nextCellPos.x - world.cellSize/2.0 - this.size/2.0 - 0.01;
+            this.pos.x = nextCellPos.x - world.cellSize/2.0 - this.size/2.0 - COL_THRESHOLD;
             this.vel.x = 0;
           }
           else if (velDir.x < 0) {
-            this.pos.x = nextCellPos.x + world.cellSize/2.0 + this.size/2.0 + 0.01;
+            this.pos.x = nextCellPos.x + world.cellSize/2.0 + this.size/2.0 + COL_THRESHOLD;
             this.vel.x = 0;
           }
       }
